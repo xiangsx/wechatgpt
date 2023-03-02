@@ -15,6 +15,19 @@
 }
 ```
 3. 支持docker部署
+先在`config`目录下新建`config.js`文件，可以直接复制`config.demo`,然后填写配置
+
+```js
+module.exports = {
+    loginEmail: {
+        user: 'xxx@xxx.com',// 发送qq二维码的邮箱账号
+        pass: 'xxxxxxx',// 需要邮箱开通IMAP/SMTP服务，并在此填写授权码，不是邮箱密码哦
+    },
+    targetEmail: 'xxx@xxx.com',// 接受登录二维码的邮箱
+    apikey: 'xxx',// 你的openai密钥，可以在openai官网申请
+}
+```
+运行docker-compose 启动容器
 ```
 docker-compose up --build -d
 ```
