@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  wechatgpt:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: dc_wechatgpt
+    environment:
+      - TZ=Asia/Shanghai
+    image: img_wechatgpt
+    restart: always

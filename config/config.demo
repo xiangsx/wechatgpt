@@ -1,0 +1,8 @@
+module.exports = {
+    loginEmail: {
+        user: 'xxx@xxx.com',
+        pass: 'xxxxxxx',
+    },
+    targetEmail: 'xxx@xxx.com',
+    apikey: 'xxx',
+}
