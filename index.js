@@ -92,6 +92,10 @@ async function loginWechaty() {
         }
         console.log("收到私聊")
         const talker = message.talker()
+        if (talker.type() === bot.Contact.Type.Official) {
+            console.log('这是来自微信团队的消息。');
+            return;
+        }
 
         const response = await getChatGPTResponse(message.text(), message.talker())
 
