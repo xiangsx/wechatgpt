@@ -4,7 +4,7 @@
 
 功能：
 1. 登录自己的微信小号，作为机器人，可以回复私聊或者在群里的@消息
-2. 支持自动发送登录二维码到指定邮箱，需要填写发送方的邮箱密钥(loginEmail),，以及接收方的邮箱地址(targetEmail), 我的代码只支持qq邮箱，其他邮箱可以改代码，很简单的，[nodemailer](https://www.npmjs.com/package/nodemailer)这个库啥邮箱都支持
+2. 支持自动发送登录二维码到指定邮箱，需要填写发送方的邮箱密钥(loginEmail),，以及接收方的邮箱地址(targetEmail), 我的代码只支持qq邮箱，其他邮箱可以改代码，很简单的，[nodemailer](https://www.npmjs.com/package/nodemailer)这个库啥邮箱都支持，***注意发送到邮箱的二维码，不能本机保存本机扫码，微信会识别失败，得另找个设备显示二维码，然后用手机扫码***
 3. 支持docker部署
 
 # 配置文件说明
