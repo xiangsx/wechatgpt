@@ -10,26 +10,34 @@ const config = require('./config/config');
 const moment = require('moment');
 const { start } = require('repl');
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.qq.com',
-    port: 465,
-    secure: true,
-    auth: {
-        user: config.loginEmail.user,
-        pass: config.loginEmail.pass,
-    }
-})
+let transporter;
 
 const startTime = moment()
 let interval;
 
 async function saveQrCode(qrcodeValue) {
     qrTerm.generate(qrcodeValue, { small: true })  // show qrcode on console
+    const { email } = config;
+    if (!email.enable) {
+        return
+    }
+    const { loginEmail, targetEmail } = email;
+    if (!transporter) {
+        transporter = nodemailer.createTransport({
+            host: 'smtp.qq.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: loginEmail.user,
+                pass: loginEmail.pass,
+            }
+        })
+    }
     const qrpng = qrImg.image(qrcodeValue, { type: 'png' });
     qrpng.pipe(require('fs').createWriteStream('./qrcode.png'));
     const info = await transporter.sendMail({
-        from: config.loginEmail.user,
-        to: config.targetEmail,
+        from: loginEmail.user,
+        to: targetEmail,
         subject: '登录微信',
         text: `请使用微信扫描二维码登录`,
         html: `<p>请使用微信扫描以下二维码登录</p><br/><img src="cid:qrcode"/>`,
@@ -39,7 +47,6 @@ async function saveQrCode(qrcodeValue) {
             cid: 'qrcode'
         }]
     })
-
     console.log(`已发送二维码链接到邮箱：${info.messageId}`)
 }
 
@@ -54,21 +61,25 @@ async function loginWechaty() {
 
     bot.on('login', async user => {
         console.log(`登录成功，用户名：${user}`)
-        if (interval) {
-            clearInterval(interval);
-        }
-        interval = setInterval(async () => {
-            const contact = await bot.Contact.find({ name: "盛翔" });
-            if (contact) {
-                await contact.say(`我还活着！已经活了 ${moment().from(startTime)} ${moment().format("YYYY-MM-DD HH:mm:ss")}`);
+        const { heart } = config;
+        if (heart.enable) {
+            const startTime = moment()
+            const { timeInterval, contactName } = heart;
+            if (interval) {
+                clearInterval(interval);
             }
-        }, 3 * 60 * 1000);
+            interval = setInterval(async () => {
+                const contact = await bot.Contact.find({ name: contactName });
+                if (contact) {
+                    await contact.say(`我还活着！已经活了 ${moment().diff(startTime, 'minutes')}分钟 ${moment().format("YYYY-MM-DD HH:mm:ss")}`);
+                }
+            }, timeInterval * 1000);
+        }
     })
 
     bot.on('logout', async user => {
         console.log(`用户${user}已退出登录`)
         process.exit(0)
-        // await saveQrCode(await bot.generateQRCode())
     })
 
     bot.on('message', async message => {
@@ -92,12 +103,12 @@ async function loginWechaty() {
         }
         console.log("收到私聊")
         const talker = message.talker()
-        if (talker.type() === bot.Contact.Type.Official) {
-            console.log('这是来自微信团队的消息。');
+        if (talker.type() !== bot.Contact.Type.Individual) {
+            console.log(`这不是来自个人的消息的，这是来自${talker.type()}`);
             return;
         }
 
-        const response = await getChatGPTResponse(message.text(), message.talker())
+        const response = await getChatGPTResponse(message.text(), talker)
 
         await talker.say(response)
     })

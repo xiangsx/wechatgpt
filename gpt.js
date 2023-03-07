@@ -26,14 +26,16 @@ async function getChatGPTResponse(message, contack) {
         let res = response.data.choices[0].message
         res.content = res.content.trim()
         his.push(res)
-        if (his.length > 6) {
-            his = his.slice(-6)
+        const maxHisCount = config?.historyCount * 2 || 6;
+        if (his.length > maxHisCount) {
+            his = his.slice(-maxHisCount)
         }
-        console.log(his.map(item => `${item.role}:${item.content}`).join('\n'))
+        console.log(`${contack.name()}:${message}\n${res.role}:${res.content}`);
         conMap.set(contack.id, his)
         return res.content;
     } catch (error) {
         console.error('OpenAI GPT 模型生成回复失败：' + error)
+        conMap.set(contack.id, [])
         return '很抱歉，我现在无法回复您的消息。'
     }
 }

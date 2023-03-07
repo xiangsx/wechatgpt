@@ -1,8 +1,17 @@
 module.exports = {
-    loginEmail: {
-        user: 'xxx@xxx.com',
-        pass: 'xxxxxxx',
+    email: {
+        enable: false,// 为true时 loginEmail targetEmail 必填
+        loginEmail: {
+            user: 'xxx@qq.com',
+            pass: 'xxx',
+        },
+        targetEmail: 'xxx@qq.com',
     },
-    targetEmail: 'xxx@xxx.com',
-    apikey: 'xxx',
+    heart: {
+        enable: false,
+        timeInterval: 3 * 60,// 单位秒
+        contactName: 'xx', // 微信定时发送存活消息给指定用户，预防掉线
+    },
+    historyCount: 3, // 不同用户，保留历史对话数
+    apikey: 'xxxxxxx',
 }
