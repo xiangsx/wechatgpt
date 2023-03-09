@@ -51,9 +51,9 @@ docker-compose logs -f wechatgpt
 # 实现效果
 私聊
 
-![image](https://user-images.githubusercontent.com/29322721/223894301-f2a41c6f-4513-4ce3-848f-4affb74849d9.png)
+![image](https://user-images.githubusercontent.com/29322721/223895025-fe22d235-a4e3-43e2-b267-0d9f8e7873a0.png)
 
 群聊@它即可回复哦
 
-![image](https://user-images.githubusercontent.com/29322721/223894595-a56994e1-fad2-40bc-a2c7-00211388cc36.png)
+![image](https://user-images.githubusercontent.com/29322721/223895137-d5b2b7a4-e15d-4ad0-9900-22c427e5ba1f.png)
 
