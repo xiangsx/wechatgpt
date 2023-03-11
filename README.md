@@ -6,6 +6,7 @@
 1. 登录自己的微信小号，作为机器人，可以回复私聊或者在群里的@消息
 2. 支持自动发送登录二维码到指定邮箱，需要填写发送方的邮箱密钥(loginEmail),，以及接收方的邮箱地址(targetEmail), 我的代码只支持qq邮箱，其他邮箱可以改代码，很简单的，[nodemailer](https://www.npmjs.com/package/nodemailer)这个库啥邮箱都支持
 3. 支持docker部署
+4. 支持代理
 
 # 配置文件说明
 
@@ -23,6 +24,13 @@ module.exports = {
         enable: false,
         timeInterval: 3 * 60,// 单位秒
         contactName: 'xx', // 微信定时发送存活消息给指定用户，预防掉线
+    },
+    proxy: {
+        enable: false, // 如果使用代理请改为true
+        baseURL: 'https://api.openai.com/v1', //这个是固定的不用修改
+        host: '127.0.0.1', // 修改为自己的代理host
+        port: 1080, // 修改为自己的代理端口
+        protocol: 'socks' // 支持http,https,socks
     },
     historyCount: 3, // 不同用户，保留历史对话数，即上下文 配置3表示 只保留3次发送和3次回复，作为下一次请求的上下文
     apikey: 'xxxxxxx', // 你在openai申请的key，如果你没有可以点个star联系我
