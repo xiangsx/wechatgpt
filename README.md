@@ -18,7 +18,7 @@ module.exports = {
         enable: false,// 为true时 loginEmail targetEmail 必填
         loginEmail: {
             user: 'xxx@qq.com',
-            pass: 'xxx',
+            pass: 'xxx',// 开启IMAP/SMTP服务，提供的密钥，不是邮箱密码
         },
         targetEmail: 'xxx@qq.com',
     },
