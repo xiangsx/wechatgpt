@@ -17,10 +17,10 @@ module.exports = {
     email: { // 发送登录二维码到邮箱的配置，掉线时候自动发送登录的二维码到邮箱，随时随地登录
         enable: false,// 为true时 loginEmail targetEmail 必填
         loginEmail: {
-            user: 'xxx@qq.com',
+            user: 'xxx@qq.com',// 发送的邮箱
             pass: 'xxx',// 开启IMAP/SMTP服务，提供的密钥，不是邮箱密码
         },
-        targetEmail: 'xxx@qq.com',
+        targetEmail: 'xxx@qq.com', // 接收的邮箱
     },
     heart: { // 主要是防止微信掉线的，一段时间没有活动，wechaty会自动掉线的 建议开启
         enable: false,
