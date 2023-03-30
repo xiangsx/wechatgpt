@@ -8,6 +8,8 @@
 3. 支持docker部署
 4. 支持代理
 
+***注意：微信账号请使用小号，以防意外，微信保持登录需要完善个人信息，微信->我->服务->钱包->身份信息->个人信息，如果个人信息后面出现已完善说明就可以了，这是必须的步骤，不然容易掉线！！！***
+
 # 配置文件说明
 
 ```js
@@ -15,10 +17,10 @@ module.exports = {
     email: { // 发送登录二维码到邮箱的配置，掉线时候自动发送登录的二维码到邮箱，随时随地登录
         enable: false,// 为true时 loginEmail targetEmail 必填
         loginEmail: {
-            user: 'xxx@qq.com',
-            pass: 'xxx',
+            user: 'xxx@qq.com',// 发送的邮箱
+            pass: 'xxx',// 开启IMAP/SMTP服务，提供的密钥，不是邮箱密码
         },
-        targetEmail: 'xxx@qq.com',
+        targetEmail: 'xxx@qq.com', // 接收的邮箱
     },
     heart: { // 主要是防止微信掉线的，一段时间没有活动，wechaty会自动掉线的 建议开启
         enable: false,
