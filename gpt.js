@@ -44,7 +44,7 @@ async function getChatGPTResponse(message, contack) {
             messages: his,
             n: 1,
             max_tokens: 2048,
-            temperature: 0.6,
+            temperature: 1,
         })
         let res = response.data.choices[0].message
         res.content = res.content.trim()
