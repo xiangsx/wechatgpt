@@ -64,7 +64,7 @@ async function loginWechaty() {
         const { heart } = config;
         if (heart.enable) {
             const startTime = moment()
-            const { interval, contactName } = heart;
+            const { interval: timeInterval, contactName } = heart;
             if (interval) {
                 clearInterval(interval);
             }
@@ -73,7 +73,7 @@ async function loginWechaty() {
                 if (contact) {
                     await contact.say(`我还活着！已经活了 ${moment().diff(startTime, 'minutes')}分钟 ${moment().format("YYYY-MM-DD HH:mm:ss")}`);
                 }
-            }, interval * 1000);
+            }, timeInterval * 1000);
         }
     })
 
