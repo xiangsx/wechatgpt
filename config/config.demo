@@ -27,7 +27,7 @@ module.exports = {
         },
         user: {
             "contactName": {// 某个用户的配置，key是用户的微信昵称，不是备注，也不是群昵称，日志里面有打印
-                historyCount: 1, // 不同用户，保留历史对话数
+                historyCount: 1, // 针对某些话痨，可以把这个值设置成0，节省api使用字数，设置0即没有历史对话
                 max_tokens: 1024,// 最大字数限制
             },
         }
