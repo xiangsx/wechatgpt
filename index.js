@@ -1,18 +1,15 @@
 const { WechatyBuilder } = require('wechaty')
-const Qrterminal = require('qrcode-terminal')
 const nodemailer = require('nodemailer')
 const qrTerm = require('qrcode-terminal')
 const qrImg = require('qr-image');
 const fs = require('fs')
 
 const { getChatGPTResponse } = require('./gpt')
-const config = require('./config/config');
+const config = require('./config');
 const moment = require('moment');
-const { start } = require('repl');
 
 let transporter;
 
-const startTime = moment()
 let interval;
 
 async function saveQrCode(qrcodeValue) {

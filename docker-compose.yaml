@@ -8,5 +8,7 @@ services:
     container_name: dc_wechatgpt
     environment:
       - TZ=Asia/Shanghai
+    volumes:
+      - ./config/config.js:/usr/src/wechatgpt/config/config.js:ro
     image: img_wechatgpt
     restart: always

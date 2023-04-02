@@ -1,6 +1,6 @@
 FROM node:16.18.1-alpine
 
-RUN mkdir -p /usr/src/WeiLanServer
+RUN mkdir -p /usr/src/wechatgpt/
 
 WORKDIR /usr/src/wechatgpt
 

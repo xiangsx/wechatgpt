@@ -1,5 +1,5 @@
 const { Configuration, OpenAIApi } = require('openai')
-const config = require('./config/config')
+const config = require('./config')
 const HttpsProxyAgent = require('https-proxy-agent');
 const { SocksProxyAgent } = require('socks-proxy-agent');
 const axios = require('axios');
@@ -32,10 +32,26 @@ if (config.proxy.enable) {
 }
 const conMap = new Map()
 
-// 使用 OpenAI GPT 模型生成回复
+/**
+ * 
+ * @param {string} name 用户微信昵称，不是备注
+ * @returns {{historyCount:number,max_tokens:2048}}
+ */
+function getLimit(name) {
+    const { limit: { all, user } } = config;
+    let limit = all;
+    const userLimit = user[name];// 用户配置
+    if (userLimit) {
+        limit = { ...limit, ...userLimit };
+    }
+    return limit
+}
+
 // 使用 OpenAI GPT 模型生成回复
 async function getChatGPTResponse(message, contack) {
     let his = conMap.get(contack.id) || []
+    const limit = getLimit(contack.name());
+    const { historyCount = 3, max_tokens = 2048 } = limit;
     try {
         let currMsg = { role: "user", content: message }
         his.push(currMsg);
@@ -43,14 +59,16 @@ async function getChatGPTResponse(message, contack) {
             model: "gpt-3.5-turbo",
             messages: his,
             n: 1,
-            max_tokens: 2048,
+            max_tokens,
             temperature: 1,
         })
         let res = response.data.choices[0].message
         res.content = res.content.trim()
         his.push(res)
-        const maxHisCount = config?.historyCount * 2 || 6;
-        if (his.length > maxHisCount) {
+        const maxHisCount = historyCount * 2;
+        if (maxHisCount === 0) {
+            his = []
+        } else if (his.length > maxHisCount) {
             his = his.slice(-maxHisCount)
         }
         console.log(`${contack.name()}:${message}\n${res.role}:${res.content}`);
@@ -66,5 +84,11 @@ async function getChatGPTResponse(message, contack) {
 module.exports = { getChatGPTResponse }
 
 if (require.main === module) {
-    getChatGPTResponse("哈哈哈", { id: "user", name: () => 'sx' }).then(console)
+    (async () => {
+        await getChatGPTResponse("哈哈哈", { id: "user", name: () => 'sx' }).then(console)
+        await getChatGPTResponse("哈哈哈", { id: "user", name: () => 'sx' }).then(console)
+        await getChatGPTResponse("哈哈哈", { id: "user", name: () => 'sx' }).then(console)
+        await getChatGPTResponse("哈哈哈", { id: "user", name: () => 'sx' }).then(console)
+    })()
+
 }

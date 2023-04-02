@@ -19,6 +19,17 @@ module.exports = {
         port: 1080, // 修改为自己的代理端口
         protocol: 'socks' // 支持http,https,socks
     },
-    historyCount: 3, // 不同用户，保留历史对话数
     apikey: 'xxxxxxx',
+    limit: {
+        all: {// 所有用户的配置，默认值
+            historyCount: 3, // 不同用户，保留历史对话数
+            max_tokens: 2048,// 最大字数限制
+        },
+        user: {
+            "contactName": {// 某个用户的配置，key是用户的微信昵称，不是备注，也不是群昵称，日志里面有打印
+                historyCount: 1, // 不同用户，保留历史对话数
+                max_tokens: 1024,// 最大字数限制
+            },
+        }
+    },
 }
